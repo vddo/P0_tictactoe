@@ -3,24 +3,28 @@ Tic Tac Toe Player
 """
 
 import math
+import copy
 
 # define possible moves
 X = "X"
 O = "O"
 EMPTY = None
 
+## Notebook
+# class Board():
+#     """
+#     class Board like Node in maze.py
+#     """
+#
+#     def __init__(self, board, parent, action, players_turn):
+#         self.board = board
+#         self.parent = parent
+#         self.action = action
+#         self.players_turn = players_turn
 
-class Board():
-    """
-    class Board like Node in maze.py
-    """
-
-    def __init__(self, board, parent, action, players_turn):
-        self.board = board
-        self.parent = parent
-        self.action = action
-        self.players_turn = players_turn
-
+def print_board(board):
+    for i in range(3):
+        print(board[i])
 
 def initial_state():
     """
@@ -57,7 +61,16 @@ def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
     """
-    raise NotImplementedError
+    B = copy.deepcopy(board)
+    L = []   # List of actions
+    for i in range(3):
+        j = 0
+        k = B[i].count(None)
+        while j < k:
+            L.append([i, B[i].index(None)])
+            B[i][B[i].index(None)] = "done"
+            j += 1
+    return L
 
 
 def result(board, action):
