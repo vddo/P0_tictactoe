@@ -48,10 +48,10 @@ def player(board):
     Count number auf "X" and "O". X-Player will start therefor if number
     is equal X-Players turn. If more "X"s it's O-Players turn.
     """
-    if player_count(board, "X") == player_count(board, "O"):
-        print("payer X turn")
-    elif player_count(board, "X") - player_count(board, "O") == 1:
-        print("player O turn")
+    if player_count(board, X) == player_count(board, O):
+        return X
+    elif player_count(board, X) - player_count(board, O) == 1:
+        return O
     else:
         raise Exception("some thing wrong with player function")
     return
