@@ -67,7 +67,7 @@ def actions(board):
         j = 0
         k = B[i].count(None)
         while j < k:
-            L.append([i, B[i].index(None)])
+            L.append((i, B[i].index(None)))
             B[i][B[i].index(None)] = "done"
             j += 1
     return L
