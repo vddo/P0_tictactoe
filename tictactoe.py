@@ -10,6 +10,9 @@ X = "X"
 O = "O"
 EMPTY = None
 
+# board list to save all resulted boards
+boardList = []
+
 ## Notebook
 # class Board():
 #     """
@@ -22,9 +25,11 @@ EMPTY = None
 #         self.action = action
 #         self.players_turn = players_turn
 
+
 def print_board(board):
     for i in range(3):
         print(board[i])
+
 
 def initial_state():
     """
@@ -48,13 +53,15 @@ def player(board):
     Count number auf "X" and "O". X-Player will start therefor if number
     is equal X-Players turn. If more "X"s it's O-Players turn.
     """
-    if player_count(board, X) == player_count(board, O):
-        return X
-    elif player_count(board, X) - player_count(board, O) == 1:
-        return O
+    countX = player_count(board, X)
+    countO = player_count(board, O)
+    countTurn = countX + countO
+    if countX == countO:
+        return (X, countTurn)
+    elif countX - countO == 1:
+        return (O, countTurn)
     else:
         raise Exception("some thing wrong with player function")
-    return
 
 
 def actions(board):
@@ -77,7 +84,15 @@ def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
-    raise NotImplementedError
+    B = copy.deepcopy(board)
+    i, j = action
+    currentPlayerTurn, playedTurns = player(board)
+    B[i][j] = currentPlayerTurn
+    if not boardList:
+        boardList.append([playedTurns, B])
+    elif boardList[-1][0] != playedTurns:
+        boardList.append([playedTurns, B])
+    return B
 
 
 def winner(board):
