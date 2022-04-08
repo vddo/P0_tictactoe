@@ -85,14 +85,19 @@ def result(board, action):
     Returns the board that results from making move (i, j) on the board.
     """
     B = copy.deepcopy(board)
-    i, j = action
+    actionList = actions(board)
+    #print(actionList)
+    if actionList.count(action) == 1:
+        i, j = action
+    else:
+        raise Exception("Square taken!")
     currentPlayerTurn, playedTurns = player(board)
     B[i][j] = currentPlayerTurn
-    if not boardList:
-        boardList.append([playedTurns, B])
-    elif boardList[-1][0] != playedTurns:
-        boardList.append([playedTurns, B])
-    return B
+    if not playedTurns in boardList:
+        boardList[playedTurns] = B
+        return B
+    else:
+        raise Exception("Turn played twice!")
 
 
 def winner(board):
