@@ -11,19 +11,12 @@ O = "O"
 EMPTY = None
 
 # board list to save all resulted boards
-boardList = []
-
-## Notebook
-# class Board():
-#     """
-#     class Board like Node in maze.py
-#     """
-#
-#     def __init__(self, board, parent, action, players_turn):
-#         self.board = board
-#         self.parent = parent
-#         self.action = action
-#         self.players_turn = players_turn
+"""
+Local variable boardList;
+[dict]
+used to store: (keys) = turns played before result(); (values) = resulting board after result()
+"""
+boardList = {}
 
 
 def print_board(board):
@@ -87,14 +80,14 @@ def result(board, action):
     B = copy.deepcopy(board)
     actionList = actions(board)
     #print(actionList)
-    if actionList.count(action) == 1:
+    if action in actionList:
         i, j = action
     else:
         raise Exception("Square taken!")
     currentPlayerTurn, playedTurns = player(board)
     B[i][j] = currentPlayerTurn
     if not playedTurns in boardList:
-        boardList[playedTurns] = B
+        boardList[playedTurns+1] = B
         return B
     else:
         raise Exception("Turn played twice!")
