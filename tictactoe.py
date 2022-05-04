@@ -4,6 +4,18 @@ Tic Tac Toe Player
 
 import math
 import copy
+# import sys # May be needed
+
+# Define classes
+
+
+class State():
+    def __init__(self, board, parent, action):
+        self.board = board  # Current board
+        self.parent = parent # Last board before action
+        self.action = action # Action that resulted in board
+        
+
 
 # define possible moves
 X = "X"
@@ -14,9 +26,12 @@ EMPTY = None
 """
 Local variable boardList;
 [dict]
-used to store: (keys) = turns played before result(); (values) = resulting board after result()
+used to store: (keys) = turns played before result(); (values) = resulting
+board after result()
 """
 boardList = {}
+
+# Visualization of board
 
 
 def print_board(board):
@@ -31,6 +46,8 @@ def initial_state():
     return [[EMPTY, EMPTY, EMPTY],
             [EMPTY, EMPTY, EMPTY],
             [EMPTY, EMPTY, EMPTY]]
+
+# Counts X or O for each cell
 
 
 def player_count(board, valueXO):
@@ -50,9 +67,9 @@ def player(board):
     countO = player_count(board, O)
     countTurn = countX + countO
     if countX == countO:
-        return (X, countTurn)
+        return X
     elif countX - countO == 1:
-        return (O, countTurn)
+        return O
     else:
         raise Exception("some thing wrong with player function")
 
