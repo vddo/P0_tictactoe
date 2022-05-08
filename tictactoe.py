@@ -21,7 +21,7 @@ O = "O"
 EMPTY = None
 
 # Define depth-limit
-depth_limit = 5
+depth_limit = 2
 
 # Visualization of board
 
@@ -252,4 +252,8 @@ def minimax(board):
     else:
         raise Exception("Error: nobodys turn")
 
-    return action_evaluated
+    print("\n\n\n\n\n\n\n")
+    print(v)
+    print(action_evaluated)
+
+    return action_evaluated[0][1]
