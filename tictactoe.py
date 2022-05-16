@@ -8,10 +8,10 @@ import copy
 
 
 # Define classes
-class State():
-    def __init__(self, boardState, parent, action):
-        self.boardState = boardState  # Current board
-        self.parent = parent  # Last board before action
+class Move():
+    def __init__(self, score, action):
+        self.score = score  # Current board
+        # self.depth = depth  # Last board before action
         self.action = action  # Action that resulted in board
 
 
@@ -22,6 +22,9 @@ EMPTY = None
 
 # Define depth-limit
 depth_limit = math.inf
+
+# Define frontier like move set
+# move_set = []
 
 # Visualization of board
 
@@ -42,7 +45,7 @@ def initial_state():
 
 
 # Create inital board as class State
-start = State(boardState=initial_state(), parent=None, action=None)
+# start = State(boardState=initial_state(), parent=None, action=None)
 played_actions = set()
 
 
@@ -199,22 +202,35 @@ def max_value(board, depth):
     print(depth)
 
     if terminal(board):
-        return (utility(board), ())
+        return utility(board)
 
     v = -math.inf
     action_list = actions(board)
     # action_evaluated = dict()
     action_evaluated = []
+    move_set2 = []
 
     if depth < depth_limit:
         for action in action_list:
-            minimum = min_value(result(board, action), depth)[0]
+            minimum = min_value(result(board, action), depth)
             # action_evaluated[minimum] = action
             action_evaluated.append((minimum, action))
             v = max(v, minimum)
+            if depth == 1:
+                move_set2.append(Move(score=v, action=action))
     else:
         v = evaluation(board)
-    return (v, action_evaluated)
+    # if depth == 2:
+    #     move_set.append(v)
+    # print(len(move_set))
+    # if len(move_set2) > 0:
+    #     print("here!")
+    #     for move in move_set2:
+    #         print(move.score, move.action)
+    if depth == 1:
+        return((v, move_set2))
+    else:
+        return v
 
 
 def min_value(board, depth):
@@ -226,22 +242,36 @@ def min_value(board, depth):
     print(depth)
 
     if terminal(board):
-        return (utility(board), ())
+        return utility(board)
 
     v = math.inf
     action_list = actions(board)
     # action_evaluated = dict()
     action_evaluated = []
+    move_set2 = []
 
     if depth < depth_limit:
         for action in action_list:
-            maximum = max_value(result(board, action), depth)[0]
+            maximum = max_value(result(board, action), depth)
             # action_evaluated[maximum] = action
             action_evaluated.append((maximum, action))
             v = min(v, maximum)
+            if depth == 1:
+                move_set2.append(Move(score=maximum, action=action))
     else:
         v = evaluation(board)
-    return (v, action_evaluated)
+
+    # if depth == 2:
+    #     move_set.append(v)
+    # print(len(move_set))
+    # if len(move_set2) > 0:
+    #     print("here!")
+    #     for move in move_set2:
+    #         print(move.score, move.action)
+    if depth == 1:
+        return((v, move_set2))
+    else:
+        return v
 
 
 def minimax(board):
@@ -250,20 +280,27 @@ def minimax(board):
     """
     turn = player(board)
     depth = 0
+    # reset move_set
+    # move_set.clear()
 
     if turn == X:
-        v, action_evaluated = max_value(board, depth)
+        v, move_set2 = max_value(board, depth)
     elif turn == O:
-        v, action_evaluated = min_value(board, depth)
+        v, move_set2 = min_value(board, depth)
     else:
         raise Exception("Error: nobodys turn")
 
     print("\n\n\n\n\n\n\n")
     print(v)
-    print(action_evaluated)
+    for move in move_set2:
+        print(move.action)
 
-    for i in action_evaluated:
-        if i[0] == v:
-            next_move_ai = i[1]
+    # for i in action_evaluated:
+    #     if i[0] == v:
+    #         next_move_ai = i[1]
 
-    return next_move_ai
+    for move in move_set2:
+        if move.score == v:
+            return move.action
+    else:
+        raise Exception("No move!")
