@@ -21,7 +21,7 @@ O = "O"
 EMPTY = None
 
 # Define depth-limit
-depth_limit = 2
+depth_limit = math.inf
 
 # Visualization of board
 
@@ -125,6 +125,9 @@ def winner(board):
     elif board[2][1] is not None and \
             board[2][1] == board[2][0] == board[2][2]:
         return board[2][1]
+    elif board[1][1] is not None and \
+            board[1][1] == board[1][0] == board[1][2]:
+        return board[1][1]
     # else:
     #     return None
 
@@ -138,7 +141,10 @@ def winner(board):
         return board[1][0]
     elif board[1][2] is not None and \
             board[1][2] == board[0][2] == board[2][2]:
-        return board[2][1]
+        return board[1][2]
+    elif board[1][1] is not None and \
+            board[1][1] == board[0][1] == board[2][1]:
+        return board[1][1]
 
     return None
 
@@ -256,4 +262,8 @@ def minimax(board):
     print(v)
     print(action_evaluated)
 
-    return action_evaluated[0][1]
+    for i in action_evaluated:
+        if i[0] == v:
+            next_move_ai = i[1]
+
+    return next_move_ai
