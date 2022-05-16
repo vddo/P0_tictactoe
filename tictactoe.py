@@ -207,17 +207,18 @@ def max_value(board, depth):
     v = -math.inf
     action_list = actions(board)
     # action_evaluated = dict()
-    action_evaluated = []
     move_set2 = []
 
     if depth < depth_limit:
-        for action in action_list:
-            minimum = min_value(result(board, action), depth)
-            # action_evaluated[minimum] = action
-            action_evaluated.append((minimum, action))
-            v = max(v, minimum)
-            if depth == 1:
-                move_set2.append(Move(score=v, action=action))
+        if depth == 1:
+            for action in action_list:
+                minimum = min_value(result(board, action), depth)
+                move_set2.append(Move(score=minimum, action=action))
+                v = max(v, minimum)
+        else:
+            for action in action_list:
+                minimum = min_value(result(board, action), depth)
+                v = max(v, minimum)
     else:
         v = evaluation(board)
     # if depth == 2:
@@ -246,18 +247,20 @@ def min_value(board, depth):
 
     v = math.inf
     action_list = actions(board)
-    # action_evaluated = dict()
-    action_evaluated = []
     move_set2 = []
 
     if depth < depth_limit:
-        for action in action_list:
-            maximum = max_value(result(board, action), depth)
-            # action_evaluated[maximum] = action
-            action_evaluated.append((maximum, action))
-            v = min(v, maximum)
-            if depth == 1:
+
+        if depth == 1:
+            for action in action_list:
+                maximum = max_value(result(board, action), depth)
                 move_set2.append(Move(score=maximum, action=action))
+                v = min(v, maximum)
+        else:
+            for action in action_list:
+                maximum = max_value(result(board, action), depth)
+                v = min(v, maximum)
+
     else:
         v = evaluation(board)
 
