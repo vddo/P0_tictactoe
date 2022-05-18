@@ -163,6 +163,8 @@ class Maze():
                 if not frontier.contains_state(state) and state not in \
                         self.explored:
                     child = Node(state=state, parent=node, action=action)
+                    # parent is from current process and state comes new from fucntion neighbors()
+                    # add each row from neighbors() or self.neigbors to frontier
                     frontier.add(child)
 
     def output_image(self, filename, show_solution=True, show_explored=False):

@@ -1,6 +1,6 @@
 from tictactoe import initial_state as inst
 from tictactoe import player
-
+import tictactoe as ttt
 
 def print_board(board):
     for i in range(3):
@@ -168,7 +168,7 @@ print_board(state_0)
 
 B_05 = [[None, None, None], [None, "X", None], [None, None, None]]
 print_board(B_05)
-"""
+
 B00 = copy.deepcopy(B_05)
 
 B00[0][0] = "X"
@@ -211,3 +211,15 @@ def actions(board):
 L_ = actions(B_05)
 print_board(B_05)
 print(L_)
+
+
+"""
+Paragraph 2
+"""
+
+ttt.Move(action=1, score=0)
+
+b = []
+b.append(ttt.Move(action=34, score=98))
+
+b[0].action
