@@ -25,6 +25,7 @@ depth_limit = math.inf
 
 # Define frontier like move set
 # move_set = []
+# test_list = []
 
 # Visualization of board
 
@@ -219,6 +220,8 @@ def max_value(board, depth):
             for action in action_list:
                 minimum = min_value(result(board, action), depth)
                 v = max(v, minimum)
+                if v == 1:
+                    return v
     else:
         v = evaluation(board)
     # if depth == 2:
@@ -250,7 +253,6 @@ def min_value(board, depth):
     move_set2 = []
 
     if depth < depth_limit:
-
         if depth == 1:
             for action in action_list:
                 maximum = max_value(result(board, action), depth)
@@ -260,7 +262,8 @@ def min_value(board, depth):
             for action in action_list:
                 maximum = max_value(result(board, action), depth)
                 v = min(v, maximum)
-
+                if v == -1:
+                    return v
     else:
         v = evaluation(board)
 
@@ -296,14 +299,10 @@ def minimax(board):
     print("\n\n\n\n\n\n\n")
     print(v)
     for move in move_set2:
-        print(move.action)
-
-    # for i in action_evaluated:
-    #     if i[0] == v:
-    #         next_move_ai = i[1]
+        print(move.score, move.action)
 
     for move in move_set2:
         if move.score == v:
             return move.action
-    else:
-        raise Exception("No move!")
+
+    raise Exception("No move!")
